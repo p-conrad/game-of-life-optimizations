@@ -16,6 +16,7 @@ public:
     void setElementAt(size_t i, size_t j, bool value);
 
     int sumOfNeighbors(size_t i, size_t j);
+    bool nextCellState(size_t i, size_t j);
 
 private:
     size_t indexOf(size_t i, size_t j) const;

@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#FIND_PACKAGE(OpenMP REQUIRED)
+FIND_PACKAGE(OpenMP REQUIRED)
 
 add_executable(game_of_life src/main.cpp src/GameField.cpp src/GameField.h)
 
-#target_link_libraries(game_of_life PUBLIC OpenMP::OpenMP_CXX)
+target_link_libraries(game_of_life PUBLIC OpenMP::OpenMP_CXX)

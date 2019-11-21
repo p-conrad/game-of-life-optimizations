@@ -26,11 +26,23 @@ size_t GameField::indexOf(size_t i, size_t j) const {
 
 int GameField::sumOfNeighbors(size_t i, size_t j) {
     int sum = 0;
-    for (size_t row = i - 1; row <= i + 1; i++) {
-        for (size_t col = j - 1; col <= j + 1; j++) {
+    for (size_t row = i - 1; row <= i + 1; row++) {
+        for (size_t col = j - 1; col <= j + 1; col++) {
             sum += getElementAt(row, col);
         }
     }
 
     return sum - getElementAt(i, j);
+}
+
+bool GameField::nextCellState(size_t i, size_t j) {
+    int neighbors = sumOfNeighbors(i, j);
+    bool isAlive = getElementAt(i, j);
+
+    if (!isAlive && neighbors == 3) {
+        return true;
+    } else if (isAlive && (neighbors == 2 || neighbors == 3)) {
+        return true;
+    }
+    return false;
 }
