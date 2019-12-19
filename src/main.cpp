@@ -21,6 +21,9 @@ int main() {
                 backField->setElementAt(i, j, nextState);
             }
         }
+        auto tempField = frontField;
+        frontField = backField;
+        backField = tempField;
     }
 
     auto run_time = omp_get_wtime() - start_time;
