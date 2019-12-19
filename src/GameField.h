@@ -17,6 +17,8 @@ public:
 
     int sumOfNeighbors(size_t i, size_t j);
     bool nextCellState(size_t i, size_t j);
+    void setCentered(std::vector<std::vector<bool>> pattern);
+    void print();
 
 private:
     size_t indexOf(size_t i, size_t j) const;

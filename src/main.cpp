@@ -1,14 +1,17 @@
 #include <omp.h>
 #include <iostream>
 #include "GameField.h"
+#include "Presets.h"
 
 int main() {
-    const size_t rows = 1000;
-    const size_t columns = 1000;
-    const size_t generations = 100;
+    const size_t rows = 10;
+    const size_t columns = 10;
+    const size_t generations = 10;
 
     auto *frontField = new GameField(rows, columns);
     auto *backField = new GameField(rows, columns);
+    frontField->setCentered(PRESET_GLIDER);
+    frontField->print();
 
     auto start_time = omp_get_wtime();
 
@@ -25,6 +28,8 @@ int main() {
         frontField = backField;
         backField = tempField;
     }
+
+    frontField->print();
 
     auto run_time = omp_get_wtime() - start_time;
     std::cout << "Run time for field of size " << rows << "x" << columns

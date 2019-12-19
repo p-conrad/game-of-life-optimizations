@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GameField.h"
 
 GameField::GameField(const size_t rows, const size_t columns) : rows(rows), columns(columns) {
@@ -45,4 +46,26 @@ bool GameField::nextCellState(size_t i, size_t j) {
         return true;
     }
     return false;
+}
+
+void GameField::setCentered(std::vector<std::vector<bool>> pattern) {
+    size_t start_x = getColumns() / 2 - pattern.size() / 2;
+    size_t start_y = getRows() / 2 - pattern[0].size() / 2;
+
+    for (size_t i = start_x; i < pattern.size(); i++) {
+        for (size_t j = start_y; j < pattern[0].size(); j++) {
+            setElementAt(i, j, pattern[i][j]);
+        }
+    }
+}
+
+void GameField::print() {
+    for (size_t i = 0; i <= getRows(); i++) {
+        for (size_t j = 0; j <= getColumns(); j++) {
+            auto current = getElementAt(i, j) ? "O " : "X ";
+            std::cout << current;
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }

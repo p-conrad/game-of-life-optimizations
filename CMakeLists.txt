@@ -7,6 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 FIND_PACKAGE(OpenMP REQUIRED)
 
-add_executable(game_of_life src/main.cpp src/GameField.cpp src/GameField.h)
+add_executable(game_of_life src/main.cpp src/GameField.cpp src/GameField.h src/Presets.h)
 
 target_link_libraries(game_of_life PUBLIC OpenMP::OpenMP_CXX)
