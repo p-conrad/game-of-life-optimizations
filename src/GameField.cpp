@@ -62,7 +62,7 @@ void GameField::setCentered(std::vector<std::vector<bool>> pattern) {
 void GameField::print() {
     for (size_t i = 0; i <= getRows(); i++) {
         for (size_t j = 0; j <= getColumns(); j++) {
-            auto current = getElementAt(i, j) ? "O " : "X ";
+            auto current = getElementAt(i, j) ? "O " : "_ ";
             std::cout << current;
         }
         std::cout << std::endl;
