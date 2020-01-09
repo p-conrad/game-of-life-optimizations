@@ -13,56 +13,37 @@ size_t GameField::getColumns() const {
     return columns;
 }
 
-bool GameField::getElementAt(size_t i, size_t j) {
-    return elements[indexOf(i, j)];
+bool GameField::getElementAt(size_t row, size_t column) {
+    return elements[(row + 1) * rows + (column + 1)];
 }
 
-void GameField::setElementAt(size_t i, size_t j, bool value) {
-    elements[indexOf(i, j)] = value;
+void GameField::setElementAt(size_t row, size_t column, bool value) {
+    elements[(row + 1) * rows + (column + 1)] = value;
 }
 
-size_t GameField::indexOf(size_t i, size_t j) const {
-    return (i * rows) + j;
+bool GameField::nextCellState(size_t row, size_t column) {
+    int neighbors = neighborCount(row, column);
+    bool isAlive = getElementAt(row, column);
+
+    // classic 23/3 rules
+    return (!isAlive && neighbors == 3) || (isAlive && (neighbors == 2 || neighbors == 3));
 }
 
-int GameField::sumOfNeighbors(size_t i, size_t j) {
+int GameField::neighborCount(size_t row, size_t column) {
     int sum = 0;
-    for (size_t row = i - 1; row <= i + 1; row++) {
-        for (size_t col = j - 1; col <= j + 1; col++) {
-            sum += getElementAt(row, col);
+    for (size_t y = row - 1; y <= row + 1; y++) {
+        for (size_t x = column - 1; x <= column + 1; x++) {
+            sum += getElementAt(y, x);
         }
     }
 
-    return sum - getElementAt(i, j);
-}
-
-bool GameField::nextCellState(size_t i, size_t j) {
-    int neighbors = sumOfNeighbors(i, j);
-    bool isAlive = getElementAt(i, j);
-
-    if (!isAlive && neighbors == 3) {
-        return true;
-    } else if (isAlive && (neighbors == 2 || neighbors == 3)) {
-        return true;
-    }
-    return false;
-}
-
-void GameField::setCentered(std::vector<std::vector<bool>> pattern) {
-    size_t start_x = getColumns() / 2 - pattern.size() / 2;
-    size_t start_y = getRows() / 2 - pattern[0].size() / 2;
-
-    for (size_t i = start_x; i < pattern.size(); i++) {
-        for (size_t j = start_y; j < pattern[0].size(); j++) {
-            setElementAt(i, j, pattern[i][j]);
-        }
-    }
+    return sum - getElementAt(row, column);
 }
 
 void GameField::print() {
-    for (size_t i = 0; i <= getRows(); i++) {
-        for (size_t j = 0; j <= getColumns(); j++) {
-            auto current = getElementAt(i, j) ? "O " : "_ ";
+    for (size_t row = 0; row <= getRows(); row++) {
+        for (size_t column = 0; column <= getColumns(); column++) {
+            auto current = getElementAt(row, column) ? "O " : "_ ";
             std::cout << current;
         }
         std::cout << std::endl;

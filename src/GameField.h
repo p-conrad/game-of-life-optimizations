@@ -12,20 +12,18 @@ public:
     size_t getRows() const;
     size_t getColumns() const;
 
-    bool getElementAt(size_t i, size_t j);
-    void setElementAt(size_t i, size_t j, bool value);
+    bool getElementAt(size_t row, size_t column);
+    void setElementAt(size_t row, size_t column, bool value);
 
-    int sumOfNeighbors(size_t i, size_t j);
-    bool nextCellState(size_t i, size_t j);
-    void setCentered(std::vector<std::vector<bool>> pattern);
+    bool nextCellState(size_t row, size_t column);
+
     void print();
 
 private:
-    size_t indexOf(size_t i, size_t j) const;
-
     const size_t rows;
     const size_t columns;
     std::vector<bool> elements;
+    int neighborCount(size_t row, size_t column);
 };
 
 
