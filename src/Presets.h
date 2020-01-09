@@ -4,9 +4,9 @@
 #include <vector>
 
 const std::vector<std::vector<bool>> PRESET_GLIDER = {
-        {0, 1, 0},
-        {0, 0, 1},
-        {1, 1, 1}
+        {false, true, false},
+        {false, false, true},
+        {true, true, true}
 };
 
 #endif //GAME_OF_LIFE_PRESETS_H
