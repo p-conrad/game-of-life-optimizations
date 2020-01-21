@@ -4,13 +4,14 @@
 
 #include <cstdlib>
 #include <vector>
+#include "SimpleMatrix.h"
 
 class GameField {
 public:
     GameField(size_t rows, size_t columns);
 
-    size_t getRows() const;
-    size_t getColumns() const;
+    size_t getRows();
+    size_t getColumns();
 
     bool getElementAt(size_t row, size_t column);
     void setElementAt(size_t row, size_t column, bool value);
@@ -20,9 +21,9 @@ public:
     void print();
 
 private:
-    const size_t rows;
-    const size_t columns;
-    std::vector<bool> elements;
+    size_t rows;
+    size_t columns;
+    SimpleMatrix<bool> elements;
     int neighborCount(size_t row, size_t column);
 };
 
