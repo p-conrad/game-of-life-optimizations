@@ -5,18 +5,18 @@
 #include <cstdlib>
 #include <vector>
 
-template <typename T>
+template<typename T>
 class SimpleMatrix {
 public:
     SimpleMatrix(const size_t rows, const size_t columns) :
-        rows(rows),
-        columns(columns),
-        elements(rows * columns) { }
+            rows(rows),
+            columns(columns),
+            elements(rows * columns) {}
 
     SimpleMatrix(const size_t rows, const size_t columns, T value) :
-        rows(rows),
-        columns(columns),
-        elements(rows * columns, value) { }
+            rows(rows),
+            columns(columns),
+            elements(rows * columns, value) {}
 
     virtual ~SimpleMatrix() {
         // TODO: does std::vector need to be deleted explicitly?
@@ -24,7 +24,7 @@ public:
         delete &elements;
     }
 
-    T operator() (size_t y, size_t x) {
+    T operator()(size_t y, size_t x) {
         return getElementAt(y, x);
     }
 

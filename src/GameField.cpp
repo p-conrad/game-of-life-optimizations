@@ -2,9 +2,9 @@
 #include "GameField.h"
 
 GameField::GameField(size_t rows, size_t columns) :
-    rows(rows),
-    columns(columns),
-    elements(rows + 2, columns + 2) { }
+        rows(rows),
+        columns(columns),
+        elements(rows + 2, columns + 2) {}
 
 size_t GameField::getRows() {
     return rows;
