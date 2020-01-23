@@ -2,6 +2,7 @@
 #define GAME_OF_LIFE_SIMPLEMATRIX_H
 
 
+#include <cassert>
 #include <cstdlib>
 #include <vector>
 
@@ -17,6 +18,13 @@ public:
             rows(rows),
             columns(columns),
             elements(rows * columns, value) {}
+
+    SimpleMatrix(const size_t rows, const size_t columns, std::initializer_list<T> values) :
+            rows(rows),
+            columns(columns) {
+        assert(rows * columns == values.size());
+        elements = std::vector<T>(values);
+    }
 
     virtual ~SimpleMatrix() {
         // TODO: does std::vector need to be deleted explicitly?
