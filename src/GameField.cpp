@@ -55,8 +55,8 @@ void GameField::print() {
 void GameField::setCentered(SimpleMatrix<bool> values) {
     assert(getColumns() >= values.getColumns());
     assert(getRows() >= values.getRows());
-    int y_start = getColumns() / 2 - values.getColumns() / 2;
-    int x_start = getRows() / 2 - values.getRows() / 2;
+    int y_start = getRows() / 2 - values.getRows() / 2;
+    int x_start = getColumns() / 2 - values.getColumns() / 2;
 
     for (int y = 0; y < values.getColumns(); y++) {
         for (int x = 0; x < values.getRows(); x++) {
