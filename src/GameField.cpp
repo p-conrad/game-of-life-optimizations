@@ -54,3 +54,16 @@ void GameField::print() {
     }
     std::cout << std::endl;
 }
+
+void GameField::setCentered(SimpleMatrix<bool> values) {
+    assert(getColumns() >= values.getColumns());
+    assert(getRows() >= values.getRows());
+    size_t y_start = getColumns() / 2 - values.getColumns() / 2;
+    size_t x_start = getRows() / 2 - values.getRows() / 2;
+
+    for (size_t y = 0; y < values.getColumns(); y++) {
+        for (size_t x = 0; x < values.getRows(); x++) {
+            setElementAt(y_start + y, x_start + x, values.getElementAt(y, x));
+        }
+    }
+}

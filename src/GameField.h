@@ -18,6 +18,8 @@ public:
 
     void setElementAt(size_t row, size_t column, bool value);
 
+    void setCentered(SimpleMatrix<bool> values);
+
     bool nextCellState(size_t row, size_t column);
 
     void print();

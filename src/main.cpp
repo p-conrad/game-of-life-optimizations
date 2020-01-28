@@ -10,7 +10,7 @@ int main() {
 
     auto *frontField = new GameField(rows, columns);
     auto *backField = new GameField(rows, columns);
-//    frontField->setCentered(PRESET_GLIDER);
+    frontField->setCentered(PRESET_GLIDER);
     frontField->print();
 
     auto start_time = omp_get_wtime();
@@ -31,7 +31,7 @@ int main() {
 
     auto run_time = omp_get_wtime() - start_time;
     std::cout << "Run time for field of size " << rows << "x" << columns
-            << " in " << generations <<" generations: " << run_time << "s" << std::endl;
+              << " in " << generations << " generations: " << run_time << "s" << std::endl;
 
     return 0;
 }

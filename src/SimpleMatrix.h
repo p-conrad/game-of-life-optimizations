@@ -26,12 +26,6 @@ public:
         elements = std::vector<T>(values);
     }
 
-    virtual ~SimpleMatrix() {
-        // TODO: does std::vector need to be deleted explicitly?
-        elements.clear();
-        delete &elements;
-    }
-
     T operator()(size_t y, size_t x) {
         return getElementAt(y, x);
     }
