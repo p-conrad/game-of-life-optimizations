@@ -9,46 +9,46 @@
 template<typename T>
 class SimpleMatrix {
 public:
-    SimpleMatrix(const size_t rows, const size_t columns) :
+    SimpleMatrix(int rows, int columns) :
             rows(rows),
             columns(columns),
             elements(rows * columns) {}
 
-    SimpleMatrix(const size_t rows, const size_t columns, T value) :
+    SimpleMatrix(int rows, int columns, T value) :
             rows(rows),
             columns(columns),
             elements(rows * columns, value) {}
 
-    SimpleMatrix(const size_t rows, const size_t columns, std::initializer_list<T> values) :
+    SimpleMatrix(int rows, int columns, std::initializer_list<T> values) :
             rows(rows),
             columns(columns) {
-        assert(rows * columns == values.size());
+        assert(rows * columns == (int)values.size());
         elements = std::vector<T>(values);
     }
 
-    T operator()(size_t y, size_t x) {
+    T operator()(int y, int x) {
         return getElementAt(y, x);
     }
 
-    size_t getRows() {
+    int getRows() {
         return rows;
     }
 
-    size_t getColumns() {
+    int getColumns() {
         return columns;
     }
 
-    T getElementAt(size_t y, size_t x) {
+    T getElementAt(int y, int x) {
         return elements[(y * columns) + x];
     }
 
-    void setElementAt(size_t y, size_t x, T value) {
+    void setElementAt(int y, int x, T value) {
         elements[(y * columns) + x] = value;
     }
 
 private:
-    size_t rows;
-    size_t columns;
+    int rows;
+    int columns;
     std::vector<T> elements;
 };
 

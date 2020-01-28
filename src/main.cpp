@@ -4,9 +4,9 @@
 #include "GameField.h"
 
 int main() {
-    const size_t rows = 10;
-    const size_t columns = 10;
-    const size_t generations = 10;
+    const int rows = 10;
+    const int columns = 10;
+    const int generations = 10;
 
     GameField frontField(rows, columns);
     GameField backField(rows, columns);
@@ -15,9 +15,9 @@ int main() {
 
     auto start_time = omp_get_wtime();
 
-    for (size_t gen = 1; gen <= generations; gen++) {
-        for (size_t i = 1; i <= rows; i++) {
-            for (size_t j = 1; j <= columns; j++) {
+    for (int gen = 1; gen <= generations; gen++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 bool nextState = frontField.nextCellState(i, j);
                 backField.setElementAt(i, j, nextState);
             }

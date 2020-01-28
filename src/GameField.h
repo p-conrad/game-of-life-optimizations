@@ -8,28 +8,28 @@
 
 class GameField {
 public:
-    GameField(size_t rows, size_t columns);
+    GameField(int rows, int columns);
 
-    size_t getRows();
+    int getRows();
 
-    size_t getColumns();
+    int getColumns();
 
-    bool getElementAt(size_t row, size_t column);
+    bool getElementAt(int row, int column);
 
-    void setElementAt(size_t row, size_t column, bool value);
+    void setElementAt(int row, int column, bool value);
 
     void setCentered(SimpleMatrix<bool> values);
 
-    bool nextCellState(size_t row, size_t column);
+    bool nextCellState(int row, int column);
 
     void print();
 
 private:
-    size_t rows;
-    size_t columns;
+    int rows;
+    int columns;
     SimpleMatrix<bool> elements;
 
-    int neighborCount(size_t row, size_t column);
+    int neighborCount(int row, int column);
 };
 
 
