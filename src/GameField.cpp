@@ -42,8 +42,8 @@ int GameField::neighborCount(int row, int column) {
 }
 
 void GameField::print() {
-    for (int row = 0; row <= getRows(); row++) {
-        for (int column = 0; column <= getColumns(); column++) {
+    for (int row = 0; row < getRows(); row++) {
+        for (int column = 0; column < getColumns(); column++) {
             auto current = getElementAt(row, column) ? "O " : "_ ";
             std::cout << current;
         }
