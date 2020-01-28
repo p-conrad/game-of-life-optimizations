@@ -4,7 +4,7 @@
 GameField::GameField(int rows, int columns) :
         rows(rows),
         columns(columns),
-        elements(rows + 2, columns + 2) {}
+        elements(rows, columns) {}
 
 int GameField::getRows() {
     return rows;
@@ -15,11 +15,15 @@ int GameField::getColumns() {
 }
 
 bool GameField::getElementAt(int row, int column) {
-    return elements(row + 1, column + 1);
+    if (row < 0) row = getRows() - 1;
+    if (row >= getRows()) row = 0;
+    if (column < 0) column = getColumns() - 1;
+    if (column >= getColumns()) column = 0;
+    return elements(row, column);
 }
 
 void GameField::setElementAt(int row, int column, bool value) {
-    elements.setElementAt(row + 1, column + 1, value);
+    elements.setElementAt(row, column, value);
 }
 
 bool GameField::nextCellState(int row, int column) {
