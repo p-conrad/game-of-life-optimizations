@@ -4,56 +4,31 @@
 GameField::GameField(int rows, int columns) :
         rows(rows),
         columns(columns),
-        elements(rows, columns) {}
+        frontField(rows, columns),
+        backField(rows, columns) {}
 
-int GameField::getRows() {
+int GameField::getRows() const {
     return rows;
 }
 
-int GameField::getColumns() {
+int GameField::getColumns() const {
     return columns;
 }
 
-bool GameField::getElementAt(int row, int column) {
+int GameField::getCurrentGen() const {
+    return current_gen;
+}
+
+bool GameField::getElementAt(int row, int column) const {
     if (row < 0) row = getRows() - 1;
     if (row >= getRows()) row = 0;
     if (column < 0) column = getColumns() - 1;
     if (column >= getColumns()) column = 0;
-    return elements(row, column);
+    return frontField(row, column);
 }
 
 void GameField::setElementAt(int row, int column, bool value) {
-    elements.setElementAt(row, column, value);
-}
-
-bool GameField::nextCellState(int row, int column) {
-    int neighbors = neighborCount(row, column);
-    bool isAlive = getElementAt(row, column);
-
-    // classic 23/3 rules
-    return (!isAlive && neighbors == 3) || (isAlive && (neighbors == 2 || neighbors == 3));
-}
-
-int GameField::neighborCount(int row, int column) {
-    int sum = 0;
-    for (int y = row - 1; y <= row + 1; y++) {
-        for (int x = column - 1; x <= column + 1; x++) {
-            sum += getElementAt(y, x);
-        }
-    }
-
-    return sum - getElementAt(row, column);
-}
-
-void GameField::print() {
-    for (int row = 0; row < getRows(); row++) {
-        for (int column = 0; column < getColumns(); column++) {
-            auto current = getElementAt(row, column) ? "O " : "_ ";
-            std::cout << current;
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
+    frontField.setElementAt(row, column, value);
 }
 
 void GameField::setCentered(SimpleMatrix<bool> values) {
@@ -67,4 +42,47 @@ void GameField::setCentered(SimpleMatrix<bool> values) {
             setElementAt(y_start + y, x_start + x, values.getElementAt(y, x));
         }
     }
+}
+
+int GameField::neighborCount(int row, int column) const {
+    int sum = 0;
+    for (int y = row - 1; y <= row + 1; y++) {
+        for (int x = column - 1; x <= column + 1; x++) {
+            sum += getElementAt(y, x);
+        }
+    }
+
+    return sum - getElementAt(row, column);
+}
+
+bool GameField::nextCellState(int row, int column) const {
+    int neighbors = neighborCount(row, column);
+    bool isAlive = getElementAt(row, column);
+
+    // classic 23/3 rules
+    return (!isAlive && neighbors == 3) || (isAlive && (neighbors == 2 || neighbors == 3));
+}
+
+int GameField::nextGeneration() {
+    for (int i = 0; i < getRows(); i++) {
+        for (int j = 0; j < getColumns(); j++) {
+            bool nextState = nextCellState(i, j);
+            backField.setElementAt(i, j, nextState);
+        }
+    }
+    auto tempField = frontField;
+    frontField = backField;
+    backField = tempField;
+    return ++current_gen;
+}
+
+void GameField::print() const {
+    for (int row = 0; row < getRows(); row++) {
+        for (int column = 0; column < getColumns(); column++) {
+            auto current = getElementAt(row, column) ? "O " : "_ ";
+            std::cout << current;
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }

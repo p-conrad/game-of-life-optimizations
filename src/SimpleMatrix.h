@@ -26,19 +26,19 @@ public:
         elements = std::vector<T>(values);
     }
 
-    T operator()(int y, int x) {
+    T operator()(int y, int x) const {
         return getElementAt(y, x);
     }
 
-    int getRows() {
+    int getRows() const {
         return rows;
     }
 
-    int getColumns() {
+    int getColumns() const {
         return columns;
     }
 
-    T getElementAt(int y, int x) {
+    T getElementAt(int y, int x) const {
         return elements[(y * columns) + x];
     }
 

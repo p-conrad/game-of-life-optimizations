@@ -10,26 +10,32 @@ class GameField {
 public:
     GameField(int rows, int columns);
 
-    int getRows();
+    int getRows() const;
 
-    int getColumns();
+    int getColumns() const;
 
-    bool getElementAt(int row, int column);
+    int getCurrentGen() const;
+
+    bool getElementAt(int row, int column) const;
 
     void setElementAt(int row, int column, bool value);
 
     void setCentered(SimpleMatrix<bool> values);
 
-    bool nextCellState(int row, int column);
+    bool nextCellState(int row, int column) const;
 
-    void print();
+    int nextGeneration();
+
+    void print() const;
 
 private:
     int rows;
     int columns;
-    SimpleMatrix<bool> elements;
+    int current_gen = 1;
+    SimpleMatrix<bool> frontField;
+    SimpleMatrix<bool> backField;
 
-    int neighborCount(int row, int column);
+    int neighborCount(int row, int column) const;
 };
 
 
