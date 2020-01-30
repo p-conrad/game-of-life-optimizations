@@ -38,8 +38,8 @@ void GameField::setCentered(SimpleMatrix<bool> values) {
     int y_start = getRows() / 2 - values.getRows() / 2;
     int x_start = getColumns() / 2 - values.getColumns() / 2;
 
-    for (int y = 0; y < values.getColumns(); y++) {
-        for (int x = 0; x < values.getRows(); x++) {
+    for (int y = 0; y < values.getRows(); y++) {
+        for (int x = 0; x < values.getColumns(); x++) {
             setElementAt(y_start + y, x_start + x, values.getElementAt(y, x));
         }
     }
