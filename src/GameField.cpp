@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 #include "GameField.h"
 
 GameField::GameField(int rows, int columns) :
@@ -64,6 +65,8 @@ bool GameField::nextCellState(int row, int column) const {
 }
 
 int GameField::nextGeneration() {
+    auto start_time = omp_get_wtime();
+
     for (int i = 0; i < getRows(); i++) {
         for (int j = 0; j < getColumns(); j++) {
             bool nextState = nextCellState(i, j);
@@ -73,6 +76,19 @@ int GameField::nextGeneration() {
     auto tempField = frontField;
     frontField = backField;
     backField = tempField;
+
+    auto run_time = omp_get_wtime() - start_time;
+    sum_of_run_times += run_time;
+
+    // TODO: maybe not hard-code the number 50
+    if (current_gen % 50 == 0) {
+        auto average = sum_of_run_times / 50;
+        auto per_second = 60 / average;
+        std::cout << "Calculated 50 generations for field of size " << getRows() << "x" << getColumns()
+            << " in an average of " << average << " seconds, generations per second: " << per_second << std::endl;
+        sum_of_run_times = 0.0;
+    }
+
     return ++current_gen;
 }
 
