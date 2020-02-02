@@ -8,16 +8,15 @@
 
 class GameWidget : public Fl_Box {
     GameField field;
-    const int rows, columns;
 
     void draw() override {
         Fl_Box::draw();
 
-        int cell_pixel_width = w() / columns;
-        int cell_pixel_height = h() / rows;
+        int cell_pixel_width = w() / field.getColumns();
+        int cell_pixel_height = h() / field.getRows();
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < columns; col++) {
+        for (int row = 0; row < field.getRows(); row++) {
+            for (int col = 0; col < field.getColumns(); col++) {
                 if (field.getElementAt(row, col)) {
                     fl_draw_box(FL_FLAT_BOX,
                                 col * cell_pixel_width, row * cell_pixel_height,
@@ -36,10 +35,9 @@ class GameWidget : public Fl_Box {
     }
 
 public:
-    GameWidget(int x, int y, int w, int h, const char *l, const int rows, const int columns) :
+    GameWidget(int x, int y, int w, int h, const char *l, GameField field) :
             Fl_Box(x, y, w, h, l),
-            field(rows, columns),
-            rows(rows), columns(columns) {
+            field(field) {
         box(FL_FLAT_BOX);
         color(FL_BLACK);
         Fl::add_timeout(1.0 / 30.0, Timer_CB, (void*) this);
