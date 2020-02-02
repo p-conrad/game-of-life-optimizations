@@ -16,10 +16,8 @@ int main(int argc, char **argv) {
         win.show();
         return(Fl::run());
     } else {
-        // assume we're benchmarking, so we set a max generation here
-        const int gen_max = 30000;
-        while (field.getCurrentGen() <= gen_max) {
-            field.nextGeneration();
-        }
+        // assume we're benchmarking
+        const int max_generation = 30000;
+        field.benchmark(max_generation);
     }
 }

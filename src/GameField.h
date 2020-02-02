@@ -26,13 +26,14 @@ public:
 
     int nextGeneration();
 
+    int benchmark(int max_generations);
+
     void print() const;
 
 private:
     int rows;
     int columns;
     int current_gen = 1;
-    double sum_of_run_times = 0;
     SimpleMatrix<bool> frontField;
     SimpleMatrix<bool> backField;
 
