@@ -7,7 +7,7 @@
 int main(int argc, char **argv) {
     const int rows = 300;
     const int columns = 300;
-    const bool output_graphics = true;
+    const bool output_graphics = false;
 
     GameField field(rows, columns);
     field.setCentered(PRESET_ACORN);
