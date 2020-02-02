@@ -28,4 +28,17 @@ const auto PRESET_ACORN = SimpleMatrix<bool>(3, 7, {
         true, true, false, false, true, true, true
 });
 
+const auto PRESET_EVE = SimpleMatrix<bool>(10, 16, {
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false,
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false,
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,
+        false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false,
+        false, false, false, false, false, false, false, true, false, false, false, false, true, true, true, false,
+        false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false,
+        false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+        true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false,
+        true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false,
+});
+
 #endif //GAME_OF_LIFE_PRESETS_H
