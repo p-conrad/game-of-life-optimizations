@@ -10,10 +10,10 @@ int main(int argc, char **argv) {
     const bool output_graphics = false;
 
     GameField field(rows, columns);
-    field.setCentered(PRESET_ACORN);
+    field.setCentered(PRESET_EVE);
     if (output_graphics) {
         Fl_Double_Window win(900,900,"Game Of Life");
-        GameWidget game(0, 0, win.w(), win.h(), 0, field);
+        GameWidget game(0, 0, win.w(), win.h(), nullptr, field);
         win.show();
         return(Fl::run());
     } else {

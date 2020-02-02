@@ -4,6 +4,7 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <utility>
 #include "GameField.h"
 
 class GameWidget : public Fl_Box {
@@ -37,14 +38,10 @@ class GameWidget : public Fl_Box {
 public:
     GameWidget(int x, int y, int w, int h, const char *l, GameField field) :
             Fl_Box(x, y, w, h, l),
-            field(field) {
+            field(std::move(field)) {
         box(FL_FLAT_BOX);
         color(FL_BLACK);
         Fl::add_timeout(1.0 / 30.0, Timer_CB, (void*) this);
-    }
-
-    GameField &getField() {
-        return field;
     }
 };
 

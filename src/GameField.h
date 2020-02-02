@@ -20,7 +20,7 @@ public:
 
     void setElementAt(int row, int column, bool value);
 
-    void setCentered(SimpleMatrix<bool> values);
+    void setCentered(const SimpleMatrix<bool>& values);
 
     bool nextCellState(int row, int column) const;
 

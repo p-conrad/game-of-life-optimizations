@@ -1,5 +1,4 @@
 #include <iostream>
-#include <omp.h>
 #include "GameField.h"
 
 GameField::GameField(int rows, int columns) :
@@ -32,7 +31,7 @@ void GameField::setElementAt(int row, int column, bool value) {
     frontField.setElementAt(row, column, value);
 }
 
-void GameField::setCentered(SimpleMatrix<bool> values) {
+void GameField::setCentered(const SimpleMatrix<bool>& values) {
     assert(getColumns() >= values.getColumns());
     assert(getRows() >= values.getRows());
     int y_start = getRows() / 2 - values.getRows() / 2;

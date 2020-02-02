@@ -11,7 +11,7 @@ class FieldBenchmark {
     FILE *outfile;
 
 public:
-    FieldBenchmark(const GameField &field);
+    explicit FieldBenchmark(const GameField &field);
     void run(int generations);
 
     virtual ~FieldBenchmark();
