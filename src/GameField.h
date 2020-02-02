@@ -26,8 +26,6 @@ public:
 
     int nextGeneration();
 
-    int benchmark(int max_generations);
-
     void print() const;
 
 private:

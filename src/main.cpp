@@ -2,6 +2,7 @@
 #include <FL/Fl_Double_Window.H>
 #include "Presets.h"
 #include "GameWidget.h"
+#include "FieldBenchmark.h"
 
 int main(int argc, char **argv) {
     const int rows = 300;
@@ -18,6 +19,7 @@ int main(int argc, char **argv) {
     } else {
         // assume we're benchmarking
         const int max_generation = 30000;
-        field.benchmark(max_generation);
+        FieldBenchmark benchmark(field);
+        benchmark.run(max_generation);
     }
 }

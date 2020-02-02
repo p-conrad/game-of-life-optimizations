@@ -78,29 +78,6 @@ int GameField::nextGeneration() {
     return ++current_gen;
 }
 
-int GameField::benchmark(const int max_generations) {
-    // TODO: maybe a separate class would be better for this?
-    printf("gen,avg,gps\n");
-    double sum_of_run_times = 0;
-
-    while (current_gen <= max_generations) {
-        auto start_time = omp_get_wtime();
-        nextGeneration();
-        auto run_time = omp_get_wtime() - start_time;
-        sum_of_run_times += run_time;
-
-        // TODO: maybe not hard-code the number 50
-        if (current_gen % 50 == 0) {
-            auto average = sum_of_run_times / 50;
-            auto per_second = 60 / average;
-            printf("%d,%f,%.2f\n", current_gen, average, per_second);
-            sum_of_run_times = 0.0;
-        }
-    }
-
-    return current_gen;
-}
-
 void GameField::print() const {
     for (int row = 0; row < getRows(); row++) {
         for (int column = 0; column < getColumns(); column++) {
