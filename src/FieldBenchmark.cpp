@@ -31,7 +31,7 @@ void FieldBenchmark::run(int generations) {
             std::cout << line << std::flush;
 
             auto average = sum_of_run_times / 50;
-            auto per_second = 60 / average;
+            auto per_second = 1.0 / average;
             fprintf(outfile, "%d,%f,%.2f\n", field.getCurrentGen(), average, per_second);
             sum_of_run_times = 0;
         }
