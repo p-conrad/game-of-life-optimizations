@@ -35,8 +35,8 @@ private:
     int rows;
     int columns;
     int current_gen = 1;
-    SimpleMatrix<uint_fast8_t> frontField; // read only
-    SimpleMatrix<uint_fast8_t> backField; // write only
+    std::vector<uint_fast8_t> frontField; // read only
+    std::vector<uint_fast8_t> backField; // write only
 
     uint_fast8_t neighborCount(int row, int column) const;
 };
