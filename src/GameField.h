@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 #include "SimpleMatrix.h"
+#include "Pattern.h"
 
 class GameField {
 public:
@@ -21,7 +22,7 @@ public:
 
     void setElementAt(int row, int column, uint_fast8_t value);
 
-    void setCentered(const SimpleMatrix<uint_fast8_t> &values);
+    void setCentered(const Pattern &pattern);
 
     uint_fast8_t nextCellState(int row, int column) const;
 

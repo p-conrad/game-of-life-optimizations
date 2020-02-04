@@ -1,6 +1,6 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
-#include "Presets.h"
+#include "Pattern.h"
 #include "GameWidget.h"
 #include "FieldBenchmark.h"
 

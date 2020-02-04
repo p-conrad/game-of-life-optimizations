@@ -1,6 +1,7 @@
 #include <iostream>
 #include "GameField.h"
 #include "accessors.h"
+#include "Pattern.h"
 
 GameField::GameField(int rows, int columns) :
         rows(rows),
@@ -28,15 +29,16 @@ void GameField::setElementAt(int row, int column, uint_fast8_t value) {
     set_padded(backField, columns, row, column, value);
 }
 
-void GameField::setCentered(const SimpleMatrix<uint_fast8_t>& values) {
-    assert(getColumns() >= values.getColumns());
-    assert(getRows() >= values.getRows());
-    int y_start = rows / 2 - values.getRows() / 2;
-    int x_start = columns / 2 - values.getColumns() / 2;
+void GameField::setCentered(const Pattern &pattern) {
+    assert(getColumns() >= pattern.rows);
+    assert(getRows() >= pattern.columns);
+    int y_start = rows / 2 - pattern.rows / 2;
+    int x_start = columns / 2 - pattern.columns / 2;
 
-    for (int y = 0; y < values.getRows(); y++) {
-        for (int x = 0; x < values.getColumns(); x++) {
-            set_padded(backField, columns, y_start+y, x_start+x, values.getElementAt(y, x));
+    for (int y = 0; y < pattern.rows; y++) {
+        for (int x = 0; x < pattern.columns; x++) {
+            set_padded(backField, columns, y_start + y, x_start + x,
+                       get(pattern.contents, pattern.columns, y, x));
         }
     }
 
