@@ -31,8 +31,8 @@ void GameField::setElementAt(int row, int column, uint_fast8_t value) {
 }
 
 void GameField::setCentered(const Pattern &pattern) {
-    assert(getColumns() >= pattern.rows);
-    assert(getRows() >= pattern.columns);
+    assert(columns >= pattern.rows);
+    assert(rows >= pattern.columns);
     int y_start = rows / 2 - pattern.rows / 2;
     int x_start = columns / 2 - pattern.columns / 2;
 
@@ -66,8 +66,8 @@ uint_fast8_t GameField::nextCellState(int row, int column) const {
 }
 
 int GameField::nextGeneration() {
-    for (int i = 0; i < getRows(); i++) {
-        for (int j = 0; j < getColumns(); j++) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
             uint_fast8_t nextState = nextCellState(i, j);
             set_padded(backField, columns, i, j, nextState);
         }
@@ -100,8 +100,8 @@ void GameField::flip() {
 }
 
 void GameField::print() const {
-    for (int row = 0; row < getRows(); row++) {
-        for (int column = 0; column < getColumns(); column++) {
+    for (int row = 0; row < rows; row++) {
+        for (int column = 0; column < columns; column++) {
             auto current = getElementAt(row, column) ? "O " : "_ ";
             std::cout << current;
         }
