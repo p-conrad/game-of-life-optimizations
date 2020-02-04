@@ -4,7 +4,6 @@
 #include <utility>
 #include <vector>
 #include <cstdint>
-#include "SimpleMatrix.h"
 
 
 struct Pattern {

@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <vector>
-#include "SimpleMatrix.h"
 #include "Pattern.h"
 
 class GameField {

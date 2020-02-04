@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "GameField.h"
 #include "accessors.h"
 #include "Pattern.h"
