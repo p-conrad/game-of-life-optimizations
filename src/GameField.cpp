@@ -4,8 +4,8 @@
 GameField::GameField(int rows, int columns) :
         rows(rows),
         columns(columns),
-        frontField(rows, columns),
-        backField(rows, columns) {}
+        frontField(rows + 2, columns + 2),
+        backField(rows + 2, columns + 2) {}
 
 int GameField::getRows() const {
     return rows;
@@ -20,15 +20,11 @@ int GameField::getCurrentGen() const {
 }
 
 uint_fast8_t GameField::getElementAt(int row, int column) const {
-    if (row < 0) row = getRows() - 1;
-    if (row >= getRows()) row = 0;
-    if (column < 0) column = getColumns() - 1;
-    if (column >= getColumns()) column = 0;
-    return frontField(row, column);
+    return frontField(row + 1, column + 1);
 }
 
 void GameField::setElementAt(int row, int column, uint_fast8_t value) {
-    frontField.setElementAt(row, column, value);
+    backField.setElementAt(row + 1, column + 1, value);
 }
 
 void GameField::setCentered(const SimpleMatrix<uint_fast8_t>& values) {
@@ -42,6 +38,8 @@ void GameField::setCentered(const SimpleMatrix<uint_fast8_t>& values) {
             setElementAt(y_start + y, x_start + x, values.getElementAt(y, x));
         }
     }
+
+    flip();
 }
 
 uint_fast8_t GameField::neighborCount(int row, int column) const {
@@ -67,14 +65,36 @@ int GameField::nextGeneration() {
     for (int i = 0; i < getRows(); i++) {
         for (int j = 0; j < getColumns(); j++) {
             uint_fast8_t nextState = nextCellState(i, j);
-            backField.setElementAt(i, j, nextState);
+            setElementAt(i, j, nextState);
         }
     }
+    flip();
+
+    return ++current_gen;
+}
+
+void GameField::flip() {
+    // copies opposite edges into the padding of backField and then flips the fields
+    // It's a bit messy, because now indices of GameField don't correspond to
+    // indices of the underlying matrices anymore... we'll see if we can fix that later
+    // The following indices are NOT out of bounds
+    backField.setElementAt(0, 0, backField.getElementAt(rows, columns));
+    backField.setElementAt(0, backField.getColumns()-1, backField.getElementAt(rows, 1));
+    backField.setElementAt(backField.getRows()-1, 0, backField.getElementAt(1, columns));
+    backField.setElementAt(backField.getRows()-1, backField.getColumns()-1, backField.getElementAt(1, 1));
+
+    for (int x = 1; x <= columns; x++) {
+        backField.setElementAt(0, x, backField.getElementAt(rows, x));
+        backField.setElementAt(rows+1, x, backField.getElementAt(1, x));
+    }
+    for (int y = 1; y <= rows; y++) {
+        backField.setElementAt(y, 0, backField.getElementAt(y, columns));
+        backField.setElementAt(y, columns+1, backField.getElementAt(y, 1));
+    }
+
     auto tempField = frontField;
     frontField = backField;
     backField = tempField;
-
-    return ++current_gen;
 }
 
 void GameField::print() const {

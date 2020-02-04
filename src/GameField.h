@@ -27,14 +27,16 @@ public:
 
     int nextGeneration();
 
+    void flip();
+
     void print() const;
 
 private:
     int rows;
     int columns;
     int current_gen = 1;
-    SimpleMatrix<uint_fast8_t> frontField;
-    SimpleMatrix<uint_fast8_t> backField;
+    SimpleMatrix<uint_fast8_t> frontField; // read only
+    SimpleMatrix<uint_fast8_t> backField; // write only
 
     uint_fast8_t neighborCount(int row, int column) const;
 };
