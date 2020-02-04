@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -std=c++11 -march=native")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -Wall -std=c++11 -fsanitize=address -fsanitize=undefined")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -Wall -std=c++11)
 
 find_package(OpenMP REQUIRED)
 find_package(FLTK REQUIRED)
