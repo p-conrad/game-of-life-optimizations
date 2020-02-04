@@ -19,7 +19,7 @@ int GameField::getCurrentGen() const {
     return current_gen;
 }
 
-bool GameField::getElementAt(int row, int column) const {
+uint_fast8_t GameField::getElementAt(int row, int column) const {
     if (row < 0) row = getRows() - 1;
     if (row >= getRows()) row = 0;
     if (column < 0) column = getColumns() - 1;
@@ -27,11 +27,11 @@ bool GameField::getElementAt(int row, int column) const {
     return frontField(row, column);
 }
 
-void GameField::setElementAt(int row, int column, bool value) {
+void GameField::setElementAt(int row, int column, uint_fast8_t value) {
     frontField.setElementAt(row, column, value);
 }
 
-void GameField::setCentered(const SimpleMatrix<bool>& values) {
+void GameField::setCentered(const SimpleMatrix<uint_fast8_t>& values) {
     assert(getColumns() >= values.getColumns());
     assert(getRows() >= values.getRows());
     int y_start = getRows() / 2 - values.getRows() / 2;
@@ -44,8 +44,8 @@ void GameField::setCentered(const SimpleMatrix<bool>& values) {
     }
 }
 
-int GameField::neighborCount(int row, int column) const {
-    int sum = 0;
+uint_fast8_t GameField::neighborCount(int row, int column) const {
+    uint_fast8_t sum = 0;
     for (int y = row - 1; y <= row + 1; y++) {
         for (int x = column - 1; x <= column + 1; x++) {
             sum += getElementAt(y, x);
@@ -55,9 +55,9 @@ int GameField::neighborCount(int row, int column) const {
     return sum - getElementAt(row, column);
 }
 
-bool GameField::nextCellState(int row, int column) const {
-    int neighbors = neighborCount(row, column);
-    bool isAlive = getElementAt(row, column);
+uint_fast8_t GameField::nextCellState(int row, int column) const {
+    uint_fast8_t neighbors = neighborCount(row, column);
+    uint_fast8_t isAlive = getElementAt(row, column);
 
     // classic 23/3 rules
     return (!isAlive && neighbors == 3) || (isAlive && (neighbors == 2 || neighbors == 3));
@@ -66,7 +66,7 @@ bool GameField::nextCellState(int row, int column) const {
 int GameField::nextGeneration() {
     for (int i = 0; i < getRows(); i++) {
         for (int j = 0; j < getColumns(); j++) {
-            bool nextState = nextCellState(i, j);
+            uint_fast8_t nextState = nextCellState(i, j);
             backField.setElementAt(i, j, nextState);
         }
     }

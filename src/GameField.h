@@ -2,6 +2,7 @@
 #define GAME_OF_LIFE_GAMEFIELD_H
 
 
+#include <cstdint>
 #include <cstdlib>
 #include <vector>
 #include "SimpleMatrix.h"
@@ -16,13 +17,13 @@ public:
 
     int getCurrentGen() const;
 
-    bool getElementAt(int row, int column) const;
+    uint_fast8_t getElementAt(int row, int column) const;
 
-    void setElementAt(int row, int column, bool value);
+    void setElementAt(int row, int column, uint_fast8_t value);
 
-    void setCentered(const SimpleMatrix<bool>& values);
+    void setCentered(const SimpleMatrix<uint_fast8_t> &values);
 
-    bool nextCellState(int row, int column) const;
+    uint_fast8_t nextCellState(int row, int column) const;
 
     int nextGeneration();
 
@@ -32,10 +33,10 @@ private:
     int rows;
     int columns;
     int current_gen = 1;
-    SimpleMatrix<bool> frontField;
-    SimpleMatrix<bool> backField;
+    SimpleMatrix<uint_fast8_t> frontField;
+    SimpleMatrix<uint_fast8_t> backField;
 
-    int neighborCount(int row, int column) const;
+    uint_fast8_t neighborCount(int row, int column) const;
 };
 
 

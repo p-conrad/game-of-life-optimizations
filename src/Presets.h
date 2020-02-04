@@ -2,43 +2,44 @@
 #define GAME_OF_LIFE_PRESETS_H
 
 #include <vector>
+#include <cstdint>
 #include "SimpleMatrix.h"
 
-const auto PRESET_GLIDER = SimpleMatrix<bool>(3, 3, {
-        false, true, false,
-        false, false, true,
-        true, true, true
+const auto PRESET_GLIDER = SimpleMatrix<uint_fast8_t>(3, 3, {
+        0, 1, 0,
+        0, 0, 1,
+        1, 1, 1
 });
 
-const auto PRESET_RPENTOMINO = SimpleMatrix<bool>(3, 3, {
-        false, true, true,
-        true, true, false,
-        false, true, false
+const auto PRESET_RPENTOMINO = SimpleMatrix<uint_fast8_t>(3, 3, {
+        0, 1, 1,
+        1, 1, 0,
+        0, 1, 0
 });
 
-const auto PRESET_DIEHARD = SimpleMatrix<bool>(3, 8, {
-        false, false, false, false, false, false, true, false,
-        true, true, false, false, false, false, false, false,
-        false, true, false, false, false, true, true, true
+const auto PRESET_DIEHARD = SimpleMatrix<uint_fast8_t>(3, 8, {
+        0, 0, 0, 0, 0, 0, 1, 0,
+        1, 1, 0, 0, 0, 0, 0, 0,
+        0, 1, 0, 0, 0, 1, 1, 1
 });
 
-const auto PRESET_ACORN = SimpleMatrix<bool>(3, 7, {
-        false, true, false, false, false, false, false,
-        false, false, false, true, false, false, false,
-        true, true, false, false, true, true, true
+const auto PRESET_ACORN = SimpleMatrix<uint_fast8_t>(3, 7, {
+        0, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 0,
+        1, 1, 0, 0, 1, 1, 1
 });
 
-const auto PRESET_EVE = SimpleMatrix<bool>(10, 16, {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false,
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false,
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true,
-        false, false, false, false, false, false, false, false, false, true, false, false, false, true, true, false,
-        false, false, false, false, false, false, false, true, false, false, false, false, true, true, true, false,
-        false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false,
-        false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-        true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false,
-        true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false,
+const auto PRESET_EVE = SimpleMatrix<uint_fast8_t>(10, 16, {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0,
+        0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0,
+        0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+        0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 });
 
 #endif //GAME_OF_LIFE_PRESETS_H
