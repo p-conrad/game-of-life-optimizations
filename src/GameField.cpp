@@ -46,6 +46,13 @@ void GameField::decreaseNeighbors(int row, int column) {
 }
 
 void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
+    // Adds a value to all fields around a given index
+    // This is a generalized method which should only be called from increaseNeighbors
+    // and decreaseNeighbors. The only valid inputs for value would probably be
+    // 2 and -2 (which increases/decreases neighbors by one preserving the cell states)
+    // We're using 'raw' indices to point into the field directly, which saves us
+    // from having to check the bounds for each assignment and should gain us a
+    // little speed advantage
     int index = rawIndex(columns, row, column);
     int diffAbove, diffBelow, diffLeft, diffRight;
 
