@@ -9,11 +9,11 @@ inline uint_fast8_t get(const std::vector<uint_fast8_t> &vec, int width, int y, 
     return vec[(y * width) + x];
 }
 
-inline uint_fast8_t &get_mutable(std::vector<uint_fast8_t> &vec, int width, int y, int x) {
+inline uint_fast8_t &getMutable(std::vector<uint_fast8_t> &vec, int width, int y, int x) {
     return vec[(y * width) + x];
 }
 
-inline int raw_index(int width, int y, int x) {
+inline int rawIndex(int width, int y, int x) {
     return (y * width) + x;
 }
 

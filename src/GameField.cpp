@@ -28,12 +28,12 @@ uint_fast8_t GameField::cellState(int row, int column) const {
 }
 
 void GameField::enable(int row, int column) {
-    get_mutable(backField, columns, row, column) |= 1u;
+    getMutable(backField, columns, row, column) |= 1u;
     increaseNeighbors(row, column);
 }
 
 void GameField::disable(int row, int column) {
-    get_mutable(backField, columns, row, column) &= ~1u;
+    getMutable(backField, columns, row, column) &= ~1u;
     decreaseNeighbors(row, column);
 }
 
@@ -46,13 +46,13 @@ void GameField::decreaseNeighbors(int row, int column) {
 }
 
 void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
-    int rawIndex = raw_index(columns, row, column);
+    int index = rawIndex(columns, row, column);
     int diffAbove, diffBelow, diffLeft, diffRight;
 
     if (row == 0) {
-        diffAbove = raw_index(columns, rows - 1, column) - rawIndex;
+        diffAbove = rawIndex(columns, rows - 1, column) - index;
     } else {
-        diffAbove = raw_index(columns, row - 1, column) - rawIndex;
+        diffAbove = rawIndex(columns, row - 1, column) - index;
     }
     if (column == 0) {
         diffLeft = columns - 1;
@@ -60,9 +60,9 @@ void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
         diffLeft = -1;
     }
     if (row == rows - 1) {
-        diffBelow = raw_index(columns, 0, column) - rawIndex;
+        diffBelow = rawIndex(columns, 0, column) - index;
     } else {
-        diffBelow = raw_index(columns, row + 1, column) - rawIndex;
+        diffBelow = rawIndex(columns, row + 1, column) - index;
     }
     if (column == columns - 1) {
         diffRight = -(columns - 1);
@@ -70,14 +70,14 @@ void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
         diffRight = 1;
     }
 
-    backField[rawIndex + diffAbove + diffLeft] += value;
-    backField[rawIndex + diffAbove] += value;
-    backField[rawIndex + diffAbove + diffRight] += value;
-    backField[rawIndex + diffLeft] += value;
-    backField[rawIndex + diffRight] += value;
-    backField[rawIndex + diffBelow + diffLeft] += value;
-    backField[rawIndex + diffBelow] += value;
-    backField[rawIndex + diffBelow + diffRight] += value;
+    backField[index + diffAbove + diffLeft] += value;
+    backField[index + diffAbove] += value;
+    backField[index + diffAbove + diffRight] += value;
+    backField[index + diffLeft] += value;
+    backField[index + diffRight] += value;
+    backField[index + diffBelow + diffLeft] += value;
+    backField[index + diffBelow] += value;
+    backField[index + diffBelow + diffRight] += value;
 }
 
 void GameField::setCentered(const Pattern &pattern) {
