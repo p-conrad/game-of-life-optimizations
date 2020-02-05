@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <bitset>
 #include "GameField.h"
 #include "accessors.h"
 #include "Pattern.h"
@@ -7,8 +8,8 @@
 GameField::GameField(int rows, int columns) :
         rows(rows),
         columns(columns),
-        frontField((rows + 2) * (columns + 2)),
-        backField((rows + 2) * (columns + 2)) {}
+        frontField(rows * columns),
+        backField(frontField) {}
 
 int GameField::getRows() const {
     return rows;
@@ -23,11 +24,60 @@ int GameField::getCurrentGen() const {
 }
 
 uint_fast8_t GameField::getElementAt(int row, int column) const {
-    return get_padded(frontField, columns, row, column);
+    return get(frontField, columns, row, column) & 1u;
 }
 
-void GameField::setElementAt(int row, int column, uint_fast8_t value) {
-    set_padded(backField, columns, row, column, value);
+void GameField::enable(int row, int column) {
+    get_mutable(backField, columns, row, column) |= 1u;
+    increaseNeighbors(row, column);
+}
+
+void GameField::disable(int row, int column) {
+    get_mutable(backField, columns, row, column) &= ~1u;
+    decreaseNeighbors(row, column);
+}
+
+void GameField::increaseNeighbors(int row, int column) {
+    addToNeighbors(row, column, 2);
+}
+
+void GameField::decreaseNeighbors(int row, int column) {
+    addToNeighbors(row, column, -2);
+}
+
+void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
+    int rawIndex = raw_index(columns, row, column);
+    int diffAbove, diffBelow, diffLeft, diffRight;
+
+    if (row == 0) {
+        diffAbove = raw_index(columns, rows - 1, column) - rawIndex;
+    } else {
+        diffAbove = raw_index(columns, row - 1, column) - rawIndex;
+    }
+    if (column == 0) {
+        diffLeft = columns - 1;
+    } else {
+        diffLeft = -1;
+    }
+    if (row == rows - 1) {
+        diffBelow = raw_index(columns, 0, column) - rawIndex;
+    } else {
+        diffBelow = raw_index(columns, row + 1, column) - rawIndex;
+    }
+    if (column == columns - 1) {
+        diffRight = -(columns - 1);
+    } else {
+        diffRight = 1;
+    }
+
+    backField[rawIndex + diffAbove + diffLeft] += value;
+    backField[rawIndex + diffAbove] += value;
+    backField[rawIndex + diffAbove + diffRight] += value;
+    backField[rawIndex + diffLeft] += value;
+    backField[rawIndex + diffRight] += value;
+    backField[rawIndex + diffBelow + diffLeft] += value;
+    backField[rawIndex + diffBelow] += value;
+    backField[rawIndex + diffBelow + diffRight] += value;
 }
 
 void GameField::setCentered(const Pattern &pattern) {
@@ -38,74 +88,58 @@ void GameField::setCentered(const Pattern &pattern) {
 
     for (int y = 0; y < pattern.rows; y++) {
         for (int x = 0; x < pattern.columns; x++) {
-            set_padded(backField, columns, y_start + y, x_start + x,
-                       get(pattern.contents, pattern.columns, y, x));
+            if (get(pattern.contents, pattern.columns, y, x)) {
+                enable(y_start + y, x_start + x);
+            }
         }
     }
 
-    flip();
-}
-
-uint_fast8_t GameField::neighborCount(int row, int column) const {
-    uint_fast8_t sum = 0;
-    for (int y = row - 1; y <= row + 1; y++) {
-        for (int x = column - 1; x <= column + 1; x++) {
-            sum += get_padded(frontField, columns, y, x);
-        }
-    }
-
-    return sum - get_padded(frontField, columns, row, column);
-}
-
-uint_fast8_t GameField::nextCellState(int row, int column) const {
-    uint_fast8_t neighbors = neighborCount(row, column);
-    uint_fast8_t isAlive = get_padded(frontField, columns, row, column);
-
-    // classic 23/3 rules
-    return (!isAlive && neighbors == 3) || (isAlive && (neighbors == 2 || neighbors == 3));
+    frontField = backField;
 }
 
 int GameField::nextGeneration() {
+    backField = frontField;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            uint_fast8_t nextState = nextCellState(i, j);
-            set_padded(backField, columns, i, j, nextState);
+            uint_fast8_t value = get(frontField, columns, i, j);
+            if (!value) continue;
+            uint_fast8_t alive = value & 1u;
+            int neighbors = value >> 1u;
+            if (alive) {
+                if (neighbors != 2 && neighbors != 3) {
+                    disable(i, j);
+                }
+            } else {
+                if (neighbors == 3) {
+                    enable(i, j);
+                }
+            }
         }
     }
-    flip();
+    frontField = backField;
 
     return ++current_gen;
-}
-
-void GameField::flip() {
-    // copies opposite corners and edges into the padding of backField and then flips the fields
-    auto w = columns + 2;
-    set(backField, w, 0,        0,           get_padded(backField, columns, rows - 1, columns - 1));
-    set(backField, w, 0,        columns + 1, get_padded(backField, columns, rows - 1, 0));
-    set(backField, w, rows + 1, 0,           get_padded(backField, columns, 0,      columns - 1));
-    set(backField, w, rows + 1, columns + 1, get_padded(backField, columns, 0,      0));
-
-    for (int x = 0; x < columns; x++) {
-        set(backField, w, 0,        x + 1, get_padded(backField, columns, rows - 1, x));
-        set(backField, w, rows + 1, x + 1, get_padded(backField, columns, 0, x));
-    }
-    for (int y = 0; y < rows; y++) {
-        set(backField, w, y + 1, 0,           get_padded(backField, columns, y, columns - 1));
-        set(backField, w, y + 1, columns + 1, get_padded(backField, columns, y, 0));
-    }
-
-    auto tempField = frontField;
-    frontField = backField;
-    backField = tempField;
 }
 
 void GameField::print() const {
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
-            auto current = getElementAt(row, column) ? "O " : "_ ";
+            auto current = getElementAt(row, column) ? "       O " : "________ ";
             std::cout << current;
         }
         std::cout << std::endl;
     }
     std::cout << std::endl;
 }
+
+void GameField::print_debug() const {
+    for (int row = 0; row < rows; row++) {
+        for (int column = 0; column < columns; column++) {
+            std::bitset<8> bits(get(frontField, columns, row, column));
+            std::cout << bits << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+

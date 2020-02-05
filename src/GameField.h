@@ -19,17 +19,21 @@ public:
 
     uint_fast8_t getElementAt(int row, int column) const;
 
-    void setElementAt(int row, int column, uint_fast8_t value);
+    void enable(int row, int column);
+
+    void disable(int row, int column);
+
+    void increaseNeighbors(int row, int column);
+
+    void decreaseNeighbors(int row, int column);
 
     void setCentered(const Pattern &pattern);
 
-    uint_fast8_t nextCellState(int row, int column) const;
-
     int nextGeneration();
 
-    void flip();
-
     void print() const;
+
+    void print_debug() const;
 
 private:
     int rows;
@@ -38,7 +42,7 @@ private:
     std::vector<uint_fast8_t> frontField; // read only
     std::vector<uint_fast8_t> backField; // write only
 
-    uint_fast8_t neighborCount(int row, int column) const;
+    void addToNeighbors(int row, int column, uint_fast8_t value);
 };
 
 
