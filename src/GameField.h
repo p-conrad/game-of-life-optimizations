@@ -23,10 +23,6 @@ public:
 
     void disable(int row, int column);
 
-    void increaseNeighbors(int row, int column);
-
-    void decreaseNeighbors(int row, int column);
-
     void setCentered(const Pattern &pattern);
 
     int nextGeneration();
@@ -43,6 +39,11 @@ private:
     std::vector<uint_fast8_t> backField; // write only
 
     void addToNeighbors(int row, int column, uint_fast8_t value);
+
+    void increaseNeighbors(int row, int column);
+
+    void decreaseNeighbors(int row, int column);
+
 };
 
 
