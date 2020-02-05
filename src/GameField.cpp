@@ -93,12 +93,10 @@ void GameField::setCentered(const Pattern &pattern) {
             }
         }
     }
-
     frontField = backField;
 }
 
 int GameField::nextGeneration() {
-    backField = frontField;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             uint_fast8_t value = get(frontField, columns, i, j);
