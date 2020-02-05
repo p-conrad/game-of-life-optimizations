@@ -29,8 +29,6 @@ public:
 
     void print() const;
 
-    void print_debug() const;
-
 private:
     int rows;
     int columns;
@@ -43,7 +41,6 @@ private:
     void increaseNeighbors(int row, int column);
 
     void decreaseNeighbors(int row, int column);
-
 };
 
 

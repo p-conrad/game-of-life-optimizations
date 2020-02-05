@@ -124,22 +124,10 @@ int GameField::nextGeneration() {
 void GameField::print() const {
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
-            auto current = cellState(row, column) ? "       O " : "________ ";
+            auto current = cellState(row, column) ? "O " : "_ ";
             std::cout << current;
         }
         std::cout << std::endl;
     }
     std::cout << std::endl;
 }
-
-void GameField::print_debug() const {
-    for (int row = 0; row < rows; row++) {
-        for (int column = 0; column < columns; column++) {
-            std::bitset<8> bits(get(frontField, columns, row, column));
-            std::cout << bits << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
-
