@@ -17,10 +17,10 @@ class GameWidget : public Fl_Box {
         int cell_pixel_height = h() / field.getRows();
 
         for (int row = 0; row < field.getRows(); row++) {
-            for (int col = 0; col < field.getColumns(); col++) {
-                if (field.cellState(row, col)) {
+            for (int column = 0; column < field.getColumns(); column++) {
+                if (field.cellState(row, column)) {
                     fl_draw_box(FL_FLAT_BOX,
-                                col * cell_pixel_width, row * cell_pixel_height,
+                                column * cell_pixel_width, row * cell_pixel_height,
                                 cell_pixel_width, cell_pixel_height,
                                 FL_GREEN);
                 }

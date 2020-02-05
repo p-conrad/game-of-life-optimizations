@@ -83,13 +83,13 @@ void GameField::addToNeighbors(int row, int column, uint_fast8_t value) {
 void GameField::setCentered(const Pattern &pattern) {
     assert(columns >= pattern.rows);
     assert(rows >= pattern.columns);
-    int y_start = rows / 2 - pattern.rows / 2;
-    int x_start = columns / 2 - pattern.columns / 2;
+    int row_start = rows / 2 - pattern.rows / 2;
+    int column_start = columns / 2 - pattern.columns / 2;
 
-    for (int y = 0; y < pattern.rows; y++) {
-        for (int x = 0; x < pattern.columns; x++) {
-            if (get(pattern.contents, pattern.columns, y, x)) {
-                enable(y_start + y, x_start + x);
+    for (int row = 0; row < pattern.rows; row++) {
+        for (int column = 0; column < pattern.columns; column++) {
+            if (get(pattern.contents, pattern.columns, row, column)) {
+                enable(row_start + row, column_start + column);
             }
         }
     }
@@ -97,19 +97,19 @@ void GameField::setCentered(const Pattern &pattern) {
 }
 
 int GameField::nextGeneration() {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            uint_fast8_t value = get(frontField, columns, i, j);
+    for (int row = 0; row < rows; row++) {
+        for (int column = 0; column < columns; column++) {
+            uint_fast8_t value = get(frontField, columns, row, column);
             if (!value) continue;
             uint_fast8_t alive = value & 1u;
             int neighbors = value >> 1u;
             if (alive) {
                 if (neighbors != 2 && neighbors != 3) {
-                    disable(i, j);
+                    disable(row, column);
                 }
             } else {
                 if (neighbors == 3) {
-                    enable(i, j);
+                    enable(row, column);
                 }
             }
         }
