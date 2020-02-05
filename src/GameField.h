@@ -17,7 +17,7 @@ public:
 
     int getCurrentGen() const;
 
-    uint_fast8_t getElementAt(int row, int column) const;
+    uint_fast8_t cellState(int row, int column) const;
 
     void enable(int row, int column);
 

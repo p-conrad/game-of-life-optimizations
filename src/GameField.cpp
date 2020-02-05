@@ -23,7 +23,7 @@ int GameField::getCurrentGen() const {
     return current_gen;
 }
 
-uint_fast8_t GameField::getElementAt(int row, int column) const {
+uint_fast8_t GameField::cellState(int row, int column) const {
     return get(frontField, columns, row, column) & 1u;
 }
 
@@ -124,7 +124,7 @@ int GameField::nextGeneration() {
 void GameField::print() const {
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
-            auto current = getElementAt(row, column) ? "       O " : "________ ";
+            auto current = cellState(row, column) ? "       O " : "________ ";
             std::cout << current;
         }
         std::cout << std::endl;
