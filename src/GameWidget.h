@@ -9,6 +9,14 @@
 
 class GameWidget : public Fl_Box {
     GameField field;
+    bool running = false;
+
+    void drawNext() {
+        if (!running) return;
+        field.nextGeneration();
+        redraw();
+        writeGenerations();
+    }
 
     void draw() override {
         Fl_Box::draw();
@@ -26,12 +34,22 @@ class GameWidget : public Fl_Box {
                 }
             }
         }
-        field.nextGeneration();
+    }
+
+    int handle(int e) override {
+        int ret = Fl_Box::handle(e);
+        if (e == FL_FOCUS || e == FL_UNFOCUS) {
+            return 1;
+        } else if (e == FL_KEYDOWN && Fl::event_key() == 32) {
+            running = !running;
+            return 1;
+        }
+        return ret;
     }
 
     static void Timer_CB(void *userdata) {
         auto *gw = (GameWidget*) userdata;
-        gw->redraw();
+        gw->drawNext();
         Fl::repeat_timeout(1.0 / 30.0, Timer_CB, userdata);
     }
 
@@ -41,6 +59,7 @@ public:
             field(std::move(field)) {
         box(FL_FLAT_BOX);
         color(FL_BLACK);
+        redraw();
         Fl::add_timeout(1.0 / 30.0, Timer_CB, (void*) this);
     }
 };
