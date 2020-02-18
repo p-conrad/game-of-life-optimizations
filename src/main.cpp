@@ -3,23 +3,21 @@
 #include "Pattern.h"
 #include "GameWidget.h"
 #include "FieldBenchmark.h"
+#include "GameSettings.h"
 
 int main(int argc, char **argv) {
-    const int rows = 500;
-    const int columns = 500;
-    const bool output_graphics = false;
-
-    GameField field(rows, columns);
+    auto settings = parseArgs(argc, argv);
+    GameField field(settings.fieldHeight, settings.fieldWidth);
     field.setCentered(PRESET_EVE);
-    if (output_graphics) {
-        Fl_Double_Window win(1000,1000,"Game Of Life");
-        GameWidget game(0, 0, win.w(), win.h(), nullptr, field);
-        win.show();
-        return(Fl::run());
-    } else {
-        // assume we're benchmarking
-        const int max_generation = 30000;
+
+    if (settings.doBenchmark) {
         FieldBenchmark benchmark(field);
-        benchmark.run(max_generation);
+        benchmark.run(settings.generations);
+    } else {
+        Fl_Double_Window win(settings.winWidth, settings.winHeight, "Game Of Life");
+        GameWidget game(0, 0, win.w(), win.h(), nullptr, field);
+        std::cout << "Press space to run/pause the game" << std::endl;
+        win.show();
+        return (Fl::run());
     }
 }
