@@ -15,7 +15,6 @@ class GameWidget : public Fl_Box {
         if (!running) return;
         field.nextGeneration();
         redraw();
-        writeGenerations();
     }
 
     void draw() override {
