@@ -4,11 +4,13 @@
 #include "GameWidget.h"
 #include "FieldBenchmark.h"
 #include "GameSettings.h"
+#include "RLE.h"
 
 int main(int argc, char **argv) {
     auto settings = parseArgs(argc, argv);
     GameField field(settings.fieldHeight, settings.fieldWidth);
-    field.setCentered(PRESET_EVE);
+    auto pattern = readRLE(settings.filename);
+    field.setCentered(pattern);
 
     if (settings.doBenchmark) {
         FieldBenchmark benchmark(field);

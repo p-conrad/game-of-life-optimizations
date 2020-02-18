@@ -17,5 +17,9 @@ inline int rawIndex(int width, int y, int x) {
     return (y * width) + x;
 }
 
+inline void set(std::vector<uint_fast8_t> &vec, int width, int y, int x, uint_fast8_t value) {
+    vec[(y * width) + x] = value;
+}
+
 
 #endif //GAME_OF_LIFE_ACCESSORS_H
