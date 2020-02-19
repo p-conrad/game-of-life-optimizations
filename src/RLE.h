@@ -78,6 +78,20 @@ void readData(std::ifstream &infile, Pattern &result) {
     }
 }
 
+void readComment(std::string line, Pattern &result) {
+    auto content = line.substr(2);
+    content.erase(std::remove(content.begin(), content.end(), '\r'), content.end());
+    content.erase(std::remove(content.begin(), content.end(), '\n'), content.end());
+
+    if (line.at(0) == 'N') {
+        result.name = content;
+    } else if (line.at(0) == 'O') {
+        result.author = content;
+    } else if (line.at(0) == 'C') {
+        result.comments.push_back(content);
+    }
+}
+
 Pattern readRLE(const std::string &filename) {
     // parses an RLE file and returns a Pattern according to its contents
     std::ifstream infile(filename);
@@ -93,7 +107,9 @@ Pattern readRLE(const std::string &filename) {
     // read file until we arrived at the header containing dimensions and rules
     while (getline(infile, line)) {
         // lines starting with # are comments
-        if (line.at(0) == '#') continue;
+        if (line.at(0) == '#') {
+            readComment(line.substr(1), result);
+        }
 
         // the header has the form 'x = m, y = n'
         // once we found it and got our dimensions we are done here and leave the rest to readData

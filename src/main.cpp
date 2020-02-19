@@ -6,6 +6,22 @@
 #include "GameSettings.h"
 #include "RLE.h"
 
+void printPatternInfo(const Pattern &pattern) {
+    if (pattern.name.empty() && pattern.author.empty() && pattern.comments.empty()) return;
+
+    std::cout << std::string(80, '-') << std::endl;
+    if (!pattern.name.empty())
+        std::cout << "* Pattern: " << pattern.name << std::endl;
+    if (!pattern.author.empty())
+        std::cout << "* Created by: " << pattern.author << std::endl;
+    if (!pattern.comments.empty()) {
+        for (const auto &value : pattern.comments) {
+            std::cout << "* " << value << std::endl;
+        }
+    }
+    std::cout << std::string(80, '-') << std::endl;
+}
+
 int main(int argc, char **argv) {
     GameSettings settings;
     Pattern pattern;
@@ -21,6 +37,7 @@ int main(int argc, char **argv) {
         std::cout << "  " << ia.what() << std::endl;
         return (1);
     }
+    printPatternInfo(pattern);
     GameField field(settings.fieldHeight, settings.fieldWidth);
     field.setCentered(pattern);
 
