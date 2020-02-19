@@ -7,7 +7,7 @@
 #include "Pattern.h"
 #include "accessors.h"
 
-void readDimensions(std::string line, int &columns, int &rows) {
+void readDimensions(std::string line, Pattern &result) {
     // parses the dimensions from the file header
     // remove spaces first to improve resiliency
     line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
@@ -15,14 +15,14 @@ void readDimensions(std::string line, int &columns, int &rows) {
     // dimensions are in the format 'x = 10, y = 10[, rule= ...]'
     auto firstEqual = line.find('=');
     auto secondEqual = line.find('=', firstEqual + 1);
-    columns = std::stoi(line.substr(firstEqual + 1));
-    rows = std::stoi(line.substr(secondEqual + 1));
+    result.columns = std::stoi(line.substr(firstEqual + 1));
+    result.rows = std::stoi(line.substr(secondEqual + 1));
     // TODO: maybe parse the rules and check if they are compatible?
 }
 
-std::vector<uint_fast8_t> readData(std::ifstream &infile, int columns, int rows) {
+void readData(std::ifstream &infile, Pattern &result) {
     // Parses the data in the file after the header has been read
-    std::vector<uint_fast8_t> result(columns * rows);
+    result.contents.resize(result.columns * result.rows);
     int x = 0;
     int y = 0;
 
@@ -57,7 +57,7 @@ std::vector<uint_fast8_t> readData(std::ifstream &infile, int columns, int rows)
                 uint_fast8_t cellState = line.at(cursor) == 'b' ? 0u : 1u;
 
                 for (int n = 0; n < count; n++) {
-                    set(result, columns, y, x + n, cellState);
+                    set(result.contents, result.columns, y, x + n, cellState);
                 }
 
                 // move x and cursorStart forward
@@ -69,14 +69,13 @@ std::vector<uint_fast8_t> readData(std::ifstream &infile, int columns, int rows)
             // case 3: the cursor points at a letter - this is a litle easier than the digit case
             if (isalpha(line.at(cursor))) {
                 uint_fast8_t cellState = line.at(cursor) == 'b' ? 0u : 1u;
-                set(result, columns, y, x, cellState);
+                set(result.contents, result.columns, y, x, cellState);
                 x += 1;
                 cursor += 1;
                 continue;
             }
         }
     }
-    return result;
 }
 
 Pattern readRLE(const std::string &filename) {
@@ -87,6 +86,7 @@ Pattern readRLE(const std::string &filename) {
         throw std::invalid_argument("Failed to open input file '" + filename + "'");
     }
 
+    Pattern result;
     std::string line;
     int columns = 0, rows = 0;
 
@@ -98,14 +98,14 @@ Pattern readRLE(const std::string &filename) {
         // the header has the form 'x = m, y = n'
         // once we found it and got our dimensions we are done here and leave the rest to readData
         if (line.at(0) == 'x') {
-            readDimensions(line, columns, rows);
+            readDimensions(line, result);
             break;
         }
     }
 
-    auto data = readData(infile, columns, rows);
+    readData(infile, result);
     infile.close();
-    return Pattern {rows, columns, data};
+    return result;
 }
 
 #endif //GAME_OF_LIFE_RLE_H
