@@ -4,7 +4,7 @@ This is a simple program to simulate [Conway's Game of Life](https://en.wikipedi
 the default 23/3 ruleset. It has been developed as an algorithm engineering project implementing many optimizations from
 [Michael Abrash's Graphics Programming Black Book](http://www.jagregory.com/abrash-black-book/#chapter-17-the-game-of-life).
 Both graphics output and benchmarking the algorithm on custom patterns are supported. Patterns may be provided in the
-[RLE format](http://golly.sourceforge.net/Help/formats.html).
+[RLE format](https://www.conwaylife.com/wiki/Run_Length_Encoded).
 
 ## Usage
 
