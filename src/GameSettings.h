@@ -96,7 +96,7 @@ GameSettings parseArgs(int argc, char **argv) {
         std::cout << "No valid log frequency provided, using default (50)" << std::endl;
         settings.logFrequency = 50;
     }
-    if (settings.generations % settings.logFrequency != 0) {
+    if (settings.doBenchmark && settings.generations % settings.logFrequency != 0) {
         std::cout << "Generation count is not a multiple of log frequency, some results will be lost" << std::endl;
     }
 
