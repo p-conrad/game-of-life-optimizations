@@ -82,8 +82,7 @@ Pattern readRLE(const std::string &filename) {
     std::ifstream infile(filename);
 
     if (!infile.is_open()) {
-        std::cout << "Failed to read input file" << std::endl;
-        return Pattern(0, 0, {});
+        throw std::invalid_argument("Failed to open input file '" + filename + "'");
     }
 
     std::string line;
@@ -106,7 +105,7 @@ Pattern readRLE(const std::string &filename) {
         readData(data, line, columns, rows, y, x);
     }
 
-    return Pattern(rows, columns, data);
+    return Pattern {rows, columns, data};
 }
 
 #endif //GAME_OF_LIFE_RLE_H

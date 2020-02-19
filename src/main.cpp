@@ -7,9 +7,17 @@
 #include "RLE.h"
 
 int main(int argc, char **argv) {
-    auto settings = parseArgs(argc, argv);
+    GameSettings settings;
+    Pattern pattern;
+    try {
+        settings = parseArgs(argc, argv);
+        pattern = readRLE(settings.filename);
+    } catch (const std::invalid_argument &ia) {
+        std::cout << "Failed to initialize the game. Error message: " << std::endl;
+        std::cout << "  " << ia.what() << std::endl;
+        return (1);
+    }
     GameField field(settings.fieldHeight, settings.fieldWidth);
-    auto pattern = readRLE(settings.filename);
     field.setCentered(pattern);
 
     if (settings.doBenchmark) {
