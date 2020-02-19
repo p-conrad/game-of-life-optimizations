@@ -10,7 +10,7 @@
 class GameField {
     int rows;
     int columns;
-    int current_gen = 1;
+    int currentGen = 1;
     std::vector<uint_fast8_t> frontField; // read only
     std::vector<uint_fast8_t> backField; // write only
 
