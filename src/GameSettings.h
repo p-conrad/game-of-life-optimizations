@@ -7,6 +7,7 @@
 struct GameSettings {
     bool doBenchmark = false;
     int generations = 0;
+    int logFrequency = 0;
     int fieldWidth = 500;
     int fieldHeight = 500;
     int winWidth = 0;
@@ -67,6 +68,8 @@ GameSettings parseArgs(int argc, char **argv) {
             settings.doBenchmark = true;
         } else if (currentArg == "--infile" || currentArg == "-i") {
             settings.filename = std::string(argv[++i]);
+        } else if (currentArg == "--logfrequency" || currentArg == "-l") {
+            readNumberArg(++i, argc, argv, settings.logFrequency);
         } else {
             throw std::invalid_argument("Parameter '" + currentArg + "' is not valid");
         }
@@ -74,20 +77,27 @@ GameSettings parseArgs(int argc, char **argv) {
         i++;
     }
 
-    if (settings.winWidth < settings.fieldWidth && !settings.doBenchmark) {
+    if (settings.filename.empty()) {
+        throw std::invalid_argument("No input file provided");
+    }
+    if (!settings.doBenchmark && settings.winWidth < settings.fieldWidth) {
         std::cout << "Window width is too small or was not provided, setting to field width" << std::endl;
         settings.winWidth = settings.fieldWidth;
     }
-    if (settings.winHeight < settings.fieldHeight && !settings.doBenchmark) {
+    if (!settings.doBenchmark && settings.winHeight < settings.fieldHeight) {
         std::cout << "Window height is too small or was not provided, setting to field height" << std::endl;
         settings.winHeight = settings.fieldHeight;
     }
     if (settings.doBenchmark && settings.generations <= 0) {
-        std::cout << "Must specify a valid generation count to do benchmarks. Using default value (30000)" << std::endl;
+        std::cout << "No valid generation count provided, using default (30000)" << std::endl;
         settings.generations = 30000;
     }
-    if (settings.filename.empty()) {
-        throw std::invalid_argument("No input file provided");
+    if (settings.doBenchmark && settings.logFrequency <= 0) {
+        std::cout << "No valid log frequency provided, using default (50)" << std::endl;
+        settings.logFrequency = 50;
+    }
+    if (settings.generations % settings.logFrequency != 0) {
+        std::cout << "Generation count is not a multiple of log frequency, some results will be lost" << std::endl;
     }
 
     return settings;

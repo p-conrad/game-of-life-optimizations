@@ -9,11 +9,11 @@ FieldBenchmark::FieldBenchmark(const GameField &field) : field(field) {
     outfile = fopen(filename.c_str(), "w+");
 }
 
-void FieldBenchmark::run(int generations) {
+void FieldBenchmark::run(int generations, int frequency) {
     fprintf(outfile, "gen,avg,gps\n");
     double sum_of_run_times = 0;
 
-    while (field.getCurrentGen() <= generations) {
+    while (field.getIterations() <= generations) {
         auto start_time = omp_get_wtime();
         field.nextGeneration();
         auto run_time = omp_get_wtime() - start_time;
@@ -21,18 +21,17 @@ void FieldBenchmark::run(int generations) {
 
         std::string line;
 
-        // TODO: maybe not hard-code the number 50?
-        if (field.getCurrentGen() % 50 == 0) {
-            int progress = (int)round(((double) field.getCurrentGen() / generations) * 100);
+        if (field.getIterations() % frequency == 0) {
+            int progress = (int)round(((double) field.getIterations() / generations) * 100);
             std::cout << "\r" << std::string(line.length(), ' ') << "\r";
             line = "Generation: " +
-                   std::to_string(field.getCurrentGen()) + "/" + std::to_string(generations)
+                   std::to_string(field.getIterations()) + "/" + std::to_string(generations)
                    + " (" + std::to_string(progress) + "% done)";
             std::cout << line << std::flush;
 
-            auto average = sum_of_run_times / 50;
+            auto average = sum_of_run_times / frequency;
             auto per_second = 1.0 / average;
-            fprintf(outfile, "%d,%f,%.2f\n", field.getCurrentGen(), average, per_second);
+            fprintf(outfile, "%d,%f,%.2f\n", field.getIterations(), average, per_second);
             sum_of_run_times = 0;
         }
     }

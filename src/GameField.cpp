@@ -22,6 +22,11 @@ int GameField::getCurrentGen() const {
     return current_gen;
 }
 
+int GameField::getIterations() const {
+    // a little convenience function to get us the count nextGeneration has been called
+    return current_gen - 1;
+}
+
 uint_fast8_t GameField::cellState(int row, int column) const {
     return get(frontField, columns, row, column) & 1u;
 }

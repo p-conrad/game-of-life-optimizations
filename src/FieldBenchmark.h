@@ -12,7 +12,7 @@ class FieldBenchmark {
 
 public:
     explicit FieldBenchmark(const GameField &field);
-    void run(int generations);
+    void run(int generations, int frequency);
 
     virtual ~FieldBenchmark();
 };

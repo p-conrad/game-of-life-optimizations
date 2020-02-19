@@ -29,6 +29,8 @@ public:
 
     int getCurrentGen() const;
 
+    int getIterations() const;
+
     uint_fast8_t cellState(int row, int column) const;
 
     void enable(int row, int column);

@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 
     if (settings.doBenchmark) {
         FieldBenchmark benchmark(field);
-        benchmark.run(settings.generations);
+        benchmark.run(settings.generations, settings.logFrequency);
     } else {
         Fl_Double_Window win(settings.winWidth, settings.winHeight, "Game Of Life");
         GameWidget game(0, 0, win.w(), win.h(), nullptr, field);
