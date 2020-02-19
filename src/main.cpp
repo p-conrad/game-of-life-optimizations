@@ -12,6 +12,10 @@ int main(int argc, char **argv) {
     try {
         settings = parseArgs(argc, argv);
         pattern = readRLE(settings.filename);
+
+        if (settings.fieldWidth < pattern.columns || settings.fieldHeight < pattern.rows) {
+            throw std::invalid_argument("The field is too small to hold the provided pattern");
+        }
     } catch (const std::invalid_argument &ia) {
         std::cout << "Failed to initialize the game. Error message: " << std::endl;
         std::cout << "  " << ia.what() << std::endl;
