@@ -6,7 +6,7 @@ the default 23/3 ruleset. It has been developed as an algorithm engineering proj
 adding a few of my own optimizations on top.
 Both graphics output and benchmarking the algorithm on custom patterns are supported. Patterns may be provided in the
 [RLE format](https://www.conwaylife.com/wiki/Run_Length_Encoded).
-There are also slides containing optimization results and additional information available [here](https://docs.google.com/presentation/d/1wtirYp0Qb-XJnU1P2x5ZZyOtq55NTjTd0SiMJrfvnOw/edit?usp=sharing)
+There are also slides containing optimization results and additional information available [here](https://docs.google.com/presentation/d/1wtirYp0Qb-XJnU1P2x5ZZyOtq55NTjTd0SiMJrfvnOw/edit?usp=sharing).
 
 ## Usage
 
